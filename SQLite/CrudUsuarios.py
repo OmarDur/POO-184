@@ -31,17 +31,21 @@ txtCon=Entry(pestana1,textvariable=varCon).pack()
 btnGuardar= Button(pestana1,text="Guardar Usuario").pack()
 
 #Pestaña2:Buscar Usuario
-titulo2= Label(pestana2,text="Buscar usuario",fg="red",font=("Modern",18) ).pack()
+titulo2= Label(pestana2,text="Buscar usuario",fg="Blue",font=("Modern",18) ).pack()
 varBus= tk.StringVar()
 lblid= Label(pestana2, text="Identificador de usuario: ").pack()
 txtid=Entry(pestana2,textvariable=varBus).pack()
 btnBusqueda=Button(pestana2,text="Buscar").pack()
 
-subBus=Label(pestana2,text="Registrado: ",fg="blue",font=("Modern",15)).pack()
+subBus=Label(pestana2,text="Registrado: ",fg="red",font=("Modern",15)).pack()
 TextBus= tk.Text(pestana2,height=5,width=52).pack()
 
+#Pestana: Consultar Usuarios
+titulo3=Label(pestana3,text="Consultar Usuario",fg="Blue",font=("Modern",18)).pack()
 
-
+varNom= tk.StringVar()
+lblNom= Label(pestana3, text="Nombre:").pack()
+txtNom=Entry(pestana3,textvariable=varNom).pack()
 
 
 
