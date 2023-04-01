@@ -47,6 +47,8 @@ TextBus= tk.Text(pestana2,height=5,width=52).pack()
 
 
 
+
+
 panel.add(pestana1,text="Formulario de usuarios")
 panel.add(pestana2,text="Buscar Usuario")
 panel.add(pestana3,text="Consultar Usuarios")
