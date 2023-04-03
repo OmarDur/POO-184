@@ -13,6 +13,7 @@ pestana1=ttk.Frame(panel)
 pestana2=ttk.Frame(panel)
 pestana3=ttk.Frame(panel)
 pestana4=ttk.Frame(panel)
+pestana5=ttk.Frame(panel)
 
 #Pestana1: Formulario de Usuarios
 titulo= Label(pestana1,text="Registro de Usuarios",fg="Blue",font=("Modern",18) ).pack()
@@ -43,9 +44,20 @@ TextBus= tk.Text(pestana2,height=5,width=52).pack()
 #Pestana: Consultar Usuarios
 titulo3=Label(pestana3,text="Consultar Usuario",fg="Blue",font=("Modern",18)).pack()
 
-varNom= tk.StringVar()
-lblNom= Label(pestana3, text="Nombre:").pack()
-txtNom=Entry(pestana3,textvariable=varNom).pack()
+def consultar_usuarios():
+
+    pass
+
+btnConsultar = Button(pestana3, text="Consultar", command=consultar_usuarios)
+btnConsultar.pack()
+
+treeview = ttk.Treeview(pestana3, columns=("id", "nombre", "correo"), show="headings", height=5)
+treeview.heading("id", text="ID")
+treeview.heading("nombre", text="Nombre")
+treeview.heading("correo", text="Correo")
+treeview.pack()
+
+
 
 
 
@@ -57,6 +69,7 @@ panel.add(pestana1,text="Formulario de usuarios")
 panel.add(pestana2,text="Buscar Usuario")
 panel.add(pestana3,text="Consultar Usuarios")
 panel.add(pestana4,text="Actualizar Usuario")
+panel.add(pestana5,text="Eliminar Usuario")
 
 
 Ventana.mainloop()

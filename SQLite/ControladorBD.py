@@ -3,77 +3,79 @@ from tkinter import messagebox
 import bcrypt
 
 
-class controladorBD:
+class ControladorBD:
 
     def _init_(self):
         pass
 
-    # 1 preparamos la conexion para usarla cuando sea necesario
     def conexionBD(self):
-
+        #Prepara y devuelve una conexión a la base de datos.
         try:
-            conexion = sqlite3.connect(
-                "basepoo.db")
-            print("conectado a la base de datos ")
+            conexion = sqlite3.connect("basepoo.db")
+            print("Conectado a la base de datos")
             return conexion
 
-        except sqlite3.OperationalError:
-            print("No se pudo conectar")
+        except sqlite3.Error as error:
+            print("No se pudo conectar:", error)
 
-    def guardarUsuario(self, nom, cor, con):
+    def guardarUsuario(self, nombre, correo, contrasena):
+        #Inserta un nuevo usuario en la tabla usuarios.
+        conexion = self.conexionBD()
 
-        # 1. llamar a la conexion
-        conx = self.conexionBD()
-
-        # 2. revisar parametros vacio
-        if (nom == "" or cor == "" or con == ""):
-            messagebox.showwarning("Agua!!", "Revisa tu formulario")
-            conx.close()
+        if nombre == "" or correo == "" or contrasena == "":
+            messagebox.showwarning("Atención", "Revisa tu formulario, hay campos vacíos.")
         else:
-            # 3. preparar los datos y el querysql
-            cursor = conx.cursor()
-            conH = self.encriptarCon(con)
-            datos = (nom, cor, conH)
-            qrInsert = "insert into usuarios(nombre,correo,contrasena) values(?,?,?)"
+            cursor = conexion.cursor()
 
-            # 4. Proceder a insertar y cerramaos la conex
-            cursor.execute(qrInsert, datos)
-            conx.commit()
-            conx.close()
-            messagebox.showinfo("Exito", "Se guardo el usuario")
+            # Encripta la contraseña antes de guardarla en la BD
+            contrasena_hash = self.encriptarContrasena(contrasena)
 
-    def encriptarCon(self, con):
-        conPlana = con
-        conPlana = conPlana.encode()  # convertimos la contra a bytes
-        sal = bcrypt.gensalt()
-        conHa = bcrypt.hashpw(conPlana, sal)
-        print(conHa)
+            datos = (nombre, correo, contrasena_hash)
+            query = "INSERT INTO usuarios(nombre, correo, contrasena) VALUES (?, ?, ?)"
 
-        return conHa
+            cursor.execute(query, datos)
+            conexion.commit()
+            conexion.close()
 
-    def consultaUsuario(self, id):
-        # 1. Prepararla conexion
-        conx = self.conexionBD()
+            messagebox.showinfo("Éxito", "Se guardó el usuario correctamente.")
 
-        # 2. verificar que el ID no este vacio
+    def encriptarContrasena(self, contrasena):
+        #Devuelve la contraseña encriptada con salt.
+        contrasena_bytes = contrasena.encode()
+        salt = bcrypt.gensalt()
+        contrasena_hash = bcrypt.hashpw(contrasena_bytes, salt)
+        return contrasena_hash
 
-        if (id == ""):
-            messagebox.showwarning("Cuidado", "ID vacio escribe uno valido")
-            conx.close()
+    def consultarUsuario(self, id):
+        #Devuelve una lista con la información del usuario correspondiente al ID indicado.
+        conexion = self.conexionBD()
+
+        if id == "":
+            messagebox.showwarning("Atención", "Ingresa un ID válido.")
         else:
-            # 3. proceder a buscar
-            try:
-                # 4. preparar o necesario para el select
-                cursor = conx.cursor()
-                sqlSelect = "select * from usuarios where id=  " + id
+            cursor = conexion.cursor()
+            query = "SELECT * FROM usuarios WHERE id = ?"
+            datos = (id,)
 
-                # 5. Ejecucion y guardado de la consulta
-                cursor.execute(sqlSelect)
-                RSusuario = cursor.fetchall()
-                conx.close()
+            cursor.execute(query, datos)
+            usuario = cursor.fetchone()
 
-                return RSusuario
+            conexion.close()
 
+            if usuario is None:
+                messagebox.showwarning("Atención", "No se encontró ningún usuario con ese ID.")
+            else:
+                return usuario
 
-            except sqlite3.OperationalError:
-                print("Errror consulta")
+    def obtenerUsuarios(self):
+        #Devuelve una lista con todos los usuarios de la tabla usuarios.
+        conexion = self.conexionBD()
+        cursor = conexion.cursor()
+
+        query = "SELECT * FROM usuarios"
+        cursor.execute(query)
+
+        usuarios = cursor.fetchall()
+        conexion.close()
+
+        return usuarios
