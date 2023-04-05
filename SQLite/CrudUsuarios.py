@@ -57,10 +57,25 @@ treeview.heading("nombre", text="Nombre")
 treeview.heading("correo", text="Correo")
 treeview.pack()
 
+#Pestana de Actualizar usuarios
+
+titulo4=Label(pestana4,text="Actualizar Usuario",fg="Blue",font=("Modern",18)).pack()
+
+varActNom= tk.StringVar()
+lblActNom= Label(pestana4, text="Nombre:").pack()
+txtActNom=Entry(pestana4,textvariable=varActNom).pack()
+
+varActCor= tk.StringVar()
+lblActCor= Label(pestana4, text="Correo:").pack()
+txtActCor=Entry(pestana4,textvariable=varActCor).pack()
+
+varActCon= tk.StringVar()
+lblActCon= Label(pestana4, text="Contraseña:").pack()
+txtActCon=Entry(pestana4,textvariable=varActCon).pack()
 
 
-
-
+btnActualizar = Button(pestana4, text="Actualizar")
+btnActualizar.pack()
 
 
 
