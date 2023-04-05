@@ -77,7 +77,17 @@ txtActCon=Entry(pestana4,textvariable=varActCon).pack()
 btnActualizar = Button(pestana4, text="Actualizar")
 btnActualizar.pack()
 
+#Pestana de Eliminar usuarios
+titulo5=Label(pestana5,text="Eliminar Usuario",fg="Blue",font=("Modern",18)).pack()
 
+varDel= tk.StringVar()
+lblDel= Label(pestana5, text="Identificador de usuario: ").pack()
+txtDel=Entry(pestana5,textvariable=varDel).pack()
+
+
+
+btnEliminar = Button(pestana5, text="Eliminar")
+btnEliminar.pack()
 
 
 panel.add(pestana1,text="Formulario de usuarios")
