@@ -78,4 +78,44 @@ class ControladorBD:
         usuarios = cursor.fetchall()
         conexion.close()
 
+        def agregarUsuario(self, nombre, correo, contrasena):
+            conexion = self.conexionBD()
+
+            if nombre == "" or correo == "" or contrasena == "":
+                messagebox.showwarning("Atención", "Revisa tu formulario, hay campos vacíos.")
+            else:
+                cursor = conexion.cursor()
+
+                # Encripta la contraseña antes de guardarla en la BD
+                contrasena_hash = self.encriptarContrasena(contrasena)
+
+                datos = (nombre, correo, contrasena_hash)
+                query = "INSERT INTO usuarios(nombre, correo, contrasena) VALUES (?, ?, ?)"
+
+                cursor.execute(query, datos)
+                conexion.commit()
+                conexion.close()
+
+                messagebox.showinfo("Éxito", "Se guardó el usuario correctamente.")
+
+        def eliminarUsuario(self, id):
+            conexion = self.conexionBD()
+
+            if id == "":
+                messagebox.showwarning("Atención", "Ingresa un ID válido.")
+            else:
+                cursor = conexion.cursor()
+                query = "DELETE FROM usuarios WHERE id = ?"
+                datos = (id,)
+
+                cursor.execute(query, datos)
+                conexion.commit()
+
+                if cursor.rowcount == 0:
+                    messagebox.showwarning("Atención", "No se encontró ningún usuario con ese ID.")
+                else:
+                    messagebox.showinfo("Éxito", "Se eliminó el usuario correctamente.")
+
+            conexion.close()
+
         return usuarios
