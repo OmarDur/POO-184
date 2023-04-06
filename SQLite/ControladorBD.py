@@ -9,7 +9,7 @@ class ControladorBD:
         pass
 
     def conexionBD(self):
-        #Prepara y devuelve una conexión a la base de datos.
+
         try:
             conexion = sqlite3.connect("basepoo.db")
             print("Conectado a la base de datos")
@@ -19,7 +19,7 @@ class ControladorBD:
             print("No se pudo conectar:", error)
 
     def guardarUsuario(self, nombre, correo, contrasena):
-        #Inserta un nuevo usuario en la tabla usuarios.
+
         conexion = self.conexionBD()
 
         if nombre == "" or correo == "" or contrasena == "":
