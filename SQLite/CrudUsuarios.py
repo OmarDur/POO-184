@@ -1,6 +1,26 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+from ControladorBD import ControladorBD
+controlador=ControladorBD()
+def guardarUsuario():
+    nombre=varNom.get()
+    correo=varCor.get()
+    contrasena=varCon.get()
+    controlador.guardarUsuario(nombre,correo,contrasena)
+
+def buscarUsuario():
+    id=varBus.get()
+
+    usuario= controlador.consultarUsuario(id)
+    TextBus.insert(INSERT,usuario)
+
+
+def actualizarUsuario():
+    pass
+
+
+
 
 Ventana= Tk()
 Ventana.title("CRUD Usuarios")
@@ -15,6 +35,7 @@ pestana3=ttk.Frame(panel)
 pestana4=ttk.Frame(panel)
 pestana5=ttk.Frame(panel)
 
+
 #Pestana1: Formulario de Usuarios
 titulo= Label(pestana1,text="Registro de Usuarios",fg="Blue",font=("Modern",18) ).pack()
 varNom= tk.StringVar()
@@ -28,15 +49,15 @@ txtCor=Entry(pestana1,textvariable=varCor).pack()
 varCon= tk.StringVar()
 lblCon= Label(pestana1, text="Contraseña:").pack()
 txtCon=Entry(pestana1,textvariable=varCon).pack()
-
-btnGuardar= Button(pestana1,text="Guardar Usuario").pack()
+#Llamar a la funcion guardarUsuario
+btnGuardar= Button(pestana1,text="Guardar",command=guardarUsuario).pack()
 
 #Pestaña2:Buscar Usuario
 titulo2= Label(pestana2,text="Buscar usuario",fg="Blue",font=("Modern",18) ).pack()
 varBus= tk.StringVar()
 lblid= Label(pestana2, text="Identificador de usuario: ").pack()
 txtid=Entry(pestana2,textvariable=varBus).pack()
-btnBusqueda=Button(pestana2,text="Buscar").pack()
+btnBusqueda= Button(pestana2,text="Buscar",command=buscarUsuario).pack()
 
 subBus=Label(pestana2,text="Registrado: ",fg="red",font=("Modern",15)).pack()
 TextBus= tk.Text(pestana2,height=5,width=52).pack()
